@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>投資偏好與風險承受度問卷</title>
+</head>
+<body>
+  <h1>投資偏好與風險承受度問卷</h1>
+  <form id="survey-form">
+    <label>暱稱（簡答）*<br>
+      <input type="text" name="nickname" required>
+    </label><br><br>
+
+    <label>年齡*<br>
+      <input type="number" name="age" required>
+    </label><br><br>
+
+    <label>職業*<br>
+      <select name="occupation" required>
+        <option value="學生">學生</option>
+        <option value="上班族">上班族</option>
+        <option value="自營業者">自營業者</option>
+        <option value="自由接案者">自由接案者</option>
+        <option value="投資人">投資人</option>
+        <option value="其他">其他</option>
+      </select>
+    </label><br><br>
+
+    <label>平均月收入*<br>
+      <select name="income" required>
+        <option value="無收入">無收入</option>
+        <option value="3萬以下">3萬以下</option>
+        <option value="3-6萬">3-6萬</option>
+        <option value="6-10萬">6-10萬</option>
+        <option value="10萬以上">10萬以上</option>
+      </select>
+    </label><br><br>
+
+    <label>是否有借貸經驗*<br>
+      <select name="loan" required>
+        <option value="有">有</option>
+        <option value="沒有">沒有</option>
+        <option value="不方便透漏">不方便透漏</option>
+      </select>
+    </label><br><br>
+
+    <button type="submit">送出</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    const form = document.getElementById("survey-form");
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const data = {
+        nickname: form.nickname.value,
+        age: form.age.value,
+        occupation: form.occupation.value,
+        income: form.income.value,
+        loan: form.loan.value
+      };
+
+      const endpoint = "https://script.google.com/macros/s/你的AppsScript網址/exec";
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: { "Content-Type": "application/json" }
+        });
+        document.getElementById("status").innerText = "送出成功，謝謝填寫！";
+        form.reset();
+      } catch (err) {
+        document.getElementById("status").innerText = "送出失敗，請稍後再試。";
+      }
+    });
+  </script>
+</body>
+</html>
